@@ -9,17 +9,29 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.StreamSupport;
 
 public class CricketLeagueAnalyser {
 
     List<Ipl2019RunsSheetCSV> ipl2019RunsSheetCSVList=null;
+    Map<String, IplRunSheetDAO> iplRunSheetDAOMap=null;
+
+    public CricketLeagueAnalyser(){
+        iplRunSheetDAOMap=new HashMap<String, IplRunSheetDAO>();
+    }
 
     public  int loadRunsSheetData(String csvFilePath) throws CricketLeagueAnalyserException {
         try(Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            ipl2019RunsSheetCSVList=csvBuilder.getCSVfileList(reader, Ipl2019RunsSheetCSV.class);
-            return ipl2019RunsSheetCSVList.size();
+            Iterator<Ipl2019RunsSheetCSV> csvIterator=csvBuilder.getCSVfileIterator(reader, Ipl2019RunsSheetCSV.class);
+            Iterable<Ipl2019RunsSheetCSV> csvIterable=()->csvIterator;
+            StreamSupport.stream(csvIterable.spliterator(),false)
+                    .forEach(iplRunsCSV -> iplRunSheetDAOMap.put(iplRunsCSV.player,new IplRunSheetDAO(iplRunsCSV)));
+            return iplRunSheetDAOMap.size();
         } catch (NoSuchFileException e) {
             throw new CricketLeagueAnalyserException(CricketLeagueAnalyserException.TypeOfException.NO_FILE_FOUND, "File Not Found");
         } catch(IOException e){
