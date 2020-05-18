@@ -14,7 +14,7 @@ public class TestCricketLeagueAnalyser {
         try {
             CricketLeagueAnalyser cricketLeagueAnalyser = new CricketLeagueAnalyser();
             int numOfRecords = cricketLeagueAnalyser.loadIplRunsSheetData(IPL_MOST_RUNS_CSV_FILE_PATH);
-            Assert.assertEquals(101, numOfRecords);
+            Assert.assertEquals(100, numOfRecords);
         }catch (CricketLeagueAnalyserException e) {
             e.printStackTrace();
         }
@@ -80,6 +80,30 @@ public class TestCricketLeagueAnalyser {
             String sortedData=cricketLeagueAnalyser.getBattingAverageWiseSortedData();
             IplRunSheetDAO[] sortedAverageData=new Gson().fromJson(sortedData,IplRunSheetDAO[].class);
             Assert.assertEquals("Ishant Sharma",sortedAverageData[0].player);
+        }catch (CricketLeagueAnalyserException e) {
+        }
+    }
+
+    @Test
+    public void givenIPLMostRunsCSVFile_WhenSortedOnStrikeRate_ShouldReturn_BestStrikeRatePlayer() {
+        try {
+            CricketLeagueAnalyser cricketLeagueAnalyser=new CricketLeagueAnalyser();
+            cricketLeagueAnalyser.loadIplRunsSheetData(IPL_MOST_RUNS_CSV_FILE_PATH);
+            String sortedData=cricketLeagueAnalyser.getStrikeRateWiseSortedData();
+            IplRunSheetDAO[] sortedAverageData=new Gson().fromJson(sortedData,IplRunSheetDAO[].class);
+            Assert.assertEquals("Ishant Sharma",sortedAverageData[sortedAverageData.length-1].player);
+        }catch (CricketLeagueAnalyserException e) {
+        }
+    }
+
+    @Test
+    public void givenIPLMostRunsCSVFile_WhenSortedOnStrikeRate_ShouldReturn_LeastStrikeRatePlayer() {
+        try {
+            CricketLeagueAnalyser cricketLeagueAnalyser=new CricketLeagueAnalyser();
+            cricketLeagueAnalyser.loadIplRunsSheetData(IPL_MOST_RUNS_CSV_FILE_PATH);
+            String sortedData=cricketLeagueAnalyser.getStrikeRateWiseSortedData();
+            IplRunSheetDAO[] sortedAverageData=new Gson().fromJson(sortedData,IplRunSheetDAO[].class);
+            Assert.assertEquals("Bhuvneshwar Kumar",sortedAverageData[0].player);
         }catch (CricketLeagueAnalyserException e) {
         }
     }
