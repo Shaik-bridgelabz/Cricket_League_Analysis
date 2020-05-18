@@ -3,28 +3,27 @@ package com.bridgelabz.ipl;
 import com.Csv.CSVBuilderException;
 import com.Csv.CSVBuilderFactory;
 import com.Csv.ICSVBuilder;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 public class CricketLeagueAnalyser {
 
-    List<Ipl2019RunsSheetCSV> ipl2019RunsSheetCSVList=null;
+    List<Ipl2019RunsSheetCSV> iplRunSheetList =null;
     Map<String, IplRunSheetDAO> iplRunSheetDAOMap=null;
 
     public CricketLeagueAnalyser(){
         iplRunSheetDAOMap=new HashMap<String, IplRunSheetDAO>();
     }
 
-    public  int loadRunsSheetData(String csvFilePath) throws CricketLeagueAnalyserException {
+    public  int loadIplRunsSheetData(String csvFilePath) throws CricketLeagueAnalyserException {
         try(Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
             Iterator<Ipl2019RunsSheetCSV> csvIterator=csvBuilder.getCSVfileIterator(reader, Ipl2019RunsSheetCSV.class);
@@ -39,5 +38,16 @@ public class CricketLeagueAnalyser {
         } catch(CSVBuilderException e){
             throw new CricketLeagueAnalyserException(CricketLeagueAnalyserException.TypeOfException.UNABLE_TO_PARSE, e.getMessage());
         }
+    }
+
+    public String getBattingAverageWiseSortedData() throws CricketLeagueAnalyserException {
+        if(iplRunSheetDAOMap ==null || iplRunSheetDAOMap.size()==0){
+            throw new CricketLeagueAnalyserException(CricketLeagueAnalyserException.TypeOfException.NO_DATA_FOUND, "No Data Found");
+        }
+        Comparator<IplRunSheetDAO> iplCSVComparator =Comparator.comparing(average->average.average);
+        List sortedDataByAverage= iplRunSheetDAOMap.values().stream().
+                sorted(iplCSVComparator).collect(Collectors.toList());
+        String sortedAverageDataInJson=new Gson().toJson(sortedDataByAverage);
+        return sortedAverageDataInJson;
     }
 }
