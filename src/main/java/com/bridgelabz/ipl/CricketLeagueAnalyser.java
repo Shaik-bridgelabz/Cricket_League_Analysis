@@ -61,4 +61,15 @@ public class CricketLeagueAnalyser {
         String sortedAverageDataInJson=new Gson().toJson(sortedDataByAverage);
         return sortedAverageDataInJson;
     }
+
+    public String getSixesHitWiseSortedData() throws CricketLeagueAnalyserException {
+        if(iplRunSheetDAOMap ==null || iplRunSheetDAOMap.size()==0){
+            throw new CricketLeagueAnalyserException(CricketLeagueAnalyserException.TypeOfException.NO_DATA_FOUND, "No Data Found");
+        }
+        Comparator<IplRunSheetDAO> iplCSVComparator =Comparator.comparing(strikeRate->strikeRate.sixes);
+        List sortedDataByAverage= iplRunSheetDAOMap.values().stream().
+                sorted(iplCSVComparator).collect(Collectors.toList());
+        String sortedAverageDataInJson=new Gson().toJson(sortedDataByAverage);
+        return sortedAverageDataInJson;
+    }
 }
