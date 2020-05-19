@@ -154,6 +154,11 @@ public class CricketLeagueAnalyser {
         return this.sortIplWktsData(iplWktsSheetComparator);
     }
 
+    public String getFourWicketsWiseSortedData() throws CricketLeagueAnalyserException {
+        Comparator<IplWktsSheetDAO> iplWktsSheetComparator = Comparator.comparing(ipl->ipl.fourWickets);
+        return this.sortIplWktsData(iplWktsSheetComparator);
+    }
+
     private String sortIplWktsData(Comparator<IplWktsSheetDAO> iplWktsSheetComparator) throws CricketLeagueAnalyserException {
         if(iplWktsSheetDAOMap ==null || iplWktsSheetDAOMap.size()==0){
             throw new CricketLeagueAnalyserException(CricketLeagueAnalyserException.TypeOfException.NO_DATA_FOUND, "No Data Found");

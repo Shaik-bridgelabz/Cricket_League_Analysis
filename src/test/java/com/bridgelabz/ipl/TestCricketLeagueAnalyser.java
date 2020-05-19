@@ -401,4 +401,28 @@ public class TestCricketLeagueAnalyser {
         }catch (CricketLeagueAnalyserException e) {
         }
     }
+
+    @Test
+    public void givenIPLMostWktsCSVFile_WhenSortedOn4Wickets_ShouldReturn_Maximum4WicketsPlayer() {
+        try {
+            CricketLeagueAnalyser cricketLeagueAnalyser=new CricketLeagueAnalyser();
+            cricketLeagueAnalyser.loadIplWktsSheetData(IPL_MOST_WKTS_CSV_FILE_PATH);
+            String sortedData=cricketLeagueAnalyser.getFourWicketsWiseSortedData();
+            IplRunSheetDAO[] sortedAverageData=new Gson().fromJson(sortedData,IplRunSheetDAO[].class);
+            Assert.assertEquals("Kagiso Rabada",sortedAverageData[sortedAverageData.length-1].player);
+        }catch (CricketLeagueAnalyserException e) {
+        }
+    }
+
+    @Test
+    public void givenIPLMostWktsCSVFile_WhenSortedOn4Wickets_ShouldReturn_Least4WicketsPlayer() {
+        try {
+            CricketLeagueAnalyser cricketLeagueAnalyser=new CricketLeagueAnalyser();
+            cricketLeagueAnalyser.loadIplWktsSheetData(IPL_MOST_WKTS_CSV_FILE_PATH);
+            String sortedData=cricketLeagueAnalyser.getFourWicketsWiseSortedData();
+            IplRunSheetDAO[] sortedAverageData=new Gson().fromJson(sortedData,IplRunSheetDAO[].class);
+            Assert.assertEquals("Umesh Yadav",sortedAverageData[0].player);
+        }catch (CricketLeagueAnalyserException e) {
+        }
+    }
 }
