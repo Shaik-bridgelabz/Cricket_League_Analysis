@@ -203,4 +203,28 @@ public class TestCricketLeagueAnalyser {
         }catch (CricketLeagueAnalyserException e) {
         }
     }
+
+    @Test
+    public void givenIPLMostRunsCSVFile_WhenSortedOn_BestAverage_and_StrikeRate_ShouldReturn_PlayerWithMaximumAverageandStrikeRate() {
+        try {
+            CricketLeagueAnalyser cricketLeagueAnalyser=new CricketLeagueAnalyser();
+            cricketLeagueAnalyser.loadIplRunsSheetData(IPL_MOST_RUNS_CSV_FILE_PATH);
+            String sortedData=cricketLeagueAnalyser.getBestAverageWithStrikeRateWiseSortedData();
+            IplRunSheetDAO[] sortedAverageData=new Gson().fromJson(sortedData,IplRunSheetDAO[].class);
+            Assert.assertEquals("MS Dhoni",sortedAverageData[sortedAverageData.length-1].player);
+        }catch (CricketLeagueAnalyserException e) {
+        }
+    }
+
+    @Test
+    public void givenIPLMostRunsCSVFile_WhenSortedOn_BestAverage_and_StrikeRate_ShouldReturn_PlayerWithLeastAverageandStrikeRate() {
+        try {
+            CricketLeagueAnalyser cricketLeagueAnalyser=new CricketLeagueAnalyser();
+            cricketLeagueAnalyser.loadIplRunsSheetData(IPL_MOST_RUNS_CSV_FILE_PATH);
+            String sortedData=cricketLeagueAnalyser.getBestAverageWithStrikeRateWiseSortedData();
+            IplRunSheetDAO[] sortedAverageData=new Gson().fromJson(sortedData,IplRunSheetDAO[].class);
+            Assert.assertEquals("Tim Southee",sortedAverageData[0].player);
+        }catch (CricketLeagueAnalyserException e) {
+        }
+    }
 }

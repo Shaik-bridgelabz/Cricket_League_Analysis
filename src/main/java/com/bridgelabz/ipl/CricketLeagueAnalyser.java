@@ -102,4 +102,10 @@ public class CricketLeagueAnalyser {
         String sortedDataInJson=new Gson().toJson(sortedData);
         return sortedDataInJson;
     }
+
+    public String getBestAverageWithStrikeRateWiseSortedData() throws CricketLeagueAnalyserException {
+        Comparator<IplRunSheetDAO> iplRunSheetComparatorAverage =Comparator.comparing(ipl->ipl.average);
+        Comparator<IplRunSheetDAO> iplRunSheetComparatorStrikeRate=iplRunSheetComparatorAverage.thenComparing(ipl->ipl.strikeRate);
+        return this.sortIplData(iplRunSheetComparatorAverage,iplRunSheetComparatorStrikeRate);
+    }
 }
