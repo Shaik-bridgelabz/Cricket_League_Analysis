@@ -41,58 +41,49 @@ public class CricketLeagueAnalyser {
     }
 
     public String getBattingAverageWiseSortedData() throws CricketLeagueAnalyserException {
-        if(iplRunSheetDAOMap ==null || iplRunSheetDAOMap.size()==0){
-            throw new CricketLeagueAnalyserException(CricketLeagueAnalyserException.TypeOfException.NO_DATA_FOUND, "No Data Found");
-        }
-        Comparator<IplRunSheetDAO> iplCSVComparator =Comparator.comparing(average->average.average);
-        List sortedDataByAverage= iplRunSheetDAOMap.values().stream().
-                sorted(iplCSVComparator).collect(Collectors.toList());
-        String sortedAverageDataInJson=new Gson().toJson(sortedDataByAverage);
-        return sortedAverageDataInJson;
+        Comparator<IplRunSheetDAO> iplRunSheetComparator = Comparator.comparing(ipl->ipl.average);
+        return this.sortIplData(iplRunSheetComparator);
     }
 
     public String getStrikeRateWiseSortedData() throws CricketLeagueAnalyserException {
-        if(iplRunSheetDAOMap ==null || iplRunSheetDAOMap.size()==0){
-            throw new CricketLeagueAnalyserException(CricketLeagueAnalyserException.TypeOfException.NO_DATA_FOUND, "No Data Found");
-        }
-        Comparator<IplRunSheetDAO> iplCSVComparator =Comparator.comparing(strikeRate->strikeRate.strikeRate);
-        List sortedDataByAverage= iplRunSheetDAOMap.values().stream().
-                sorted(iplCSVComparator).collect(Collectors.toList());
-        String sortedAverageDataInJson=new Gson().toJson(sortedDataByAverage);
-        return sortedAverageDataInJson;
+        Comparator<IplRunSheetDAO> iplRunSheetComparator =Comparator.comparing(ipl->ipl.strikeRate);
+        return this.sortIplData(iplRunSheetComparator);
     }
 
     public String getSixesHitWiseSortedData() throws CricketLeagueAnalyserException {
-        if(iplRunSheetDAOMap ==null || iplRunSheetDAOMap.size()==0){
-            throw new CricketLeagueAnalyserException(CricketLeagueAnalyserException.TypeOfException.NO_DATA_FOUND, "No Data Found");
-        }
-        Comparator<IplRunSheetDAO> iplCSVComparator =Comparator.comparing(strikeRate->strikeRate.sixes);
-        List sortedDataByAverage= iplRunSheetDAOMap.values().stream().
-                sorted(iplCSVComparator).collect(Collectors.toList());
-        String sortedAverageDataInJson=new Gson().toJson(sortedDataByAverage);
-        return sortedAverageDataInJson;
+        Comparator<IplRunSheetDAO> iplRunSheetComparator =Comparator.comparing(ipl->ipl.sixes);
+        return this.sortIplData(iplRunSheetComparator);
     }
 
     public String getFoursHitWiseSortedData() throws CricketLeagueAnalyserException {
-        if(iplRunSheetDAOMap ==null || iplRunSheetDAOMap.size()==0){
-            throw new CricketLeagueAnalyserException(CricketLeagueAnalyserException.TypeOfException.NO_DATA_FOUND, "No Data Found");
-        }
-        Comparator<IplRunSheetDAO> iplCSVComparator =Comparator.comparing(strikeRate->strikeRate.fours);
-        List sortedDataByAverage= iplRunSheetDAOMap.values().stream().
-                sorted(iplCSVComparator).collect(Collectors.toList());
-        String sortedAverageDataInJson=new Gson().toJson(sortedDataByAverage);
-        return sortedAverageDataInJson;
+        Comparator<IplRunSheetDAO> iplRunSheetComparator =Comparator.comparing(ipl->ipl.fours);
+        return this.sortIplData(iplRunSheetComparator);
     }
 
     public String getMaxSixesandFoursWiseSortedData() throws CricketLeagueAnalyserException {
+        Comparator<IplRunSheetDAO> iplRunSheetComparatorSixes =Comparator.comparing(ipl->ipl.sixes);
+        Comparator<IplRunSheetDAO> iplRunSheetComparatorFours=iplRunSheetComparatorSixes.thenComparing(ipl->ipl.fours);
+        return this.sortIplData(iplRunSheetComparatorSixes,iplRunSheetComparatorFours);
+    }
+
+    private String sortIplData(Comparator<IplRunSheetDAO> iplRunSheetComparator) throws CricketLeagueAnalyserException {
         if(iplRunSheetDAOMap ==null || iplRunSheetDAOMap.size()==0){
             throw new CricketLeagueAnalyserException(CricketLeagueAnalyserException.TypeOfException.NO_DATA_FOUND, "No Data Found");
         }
-        Comparator<IplRunSheetDAO> iplCSVComparator =Comparator.comparing(strikeRate->strikeRate.sixes);
-        Comparator<IplRunSheetDAO> iplRunSheetDAOComparator=iplCSVComparator.thenComparing(strikeRate->strikeRate.fours);
-        List sortedDataByAverage= iplRunSheetDAOMap.values().stream().
-                sorted(iplCSVComparator).sorted(iplRunSheetDAOComparator).collect(Collectors.toList());
-        String sortedAverageDataInJson=new Gson().toJson(sortedDataByAverage);
-        return sortedAverageDataInJson;
+        List sortedData= iplRunSheetDAOMap.values().stream().
+                sorted(iplRunSheetComparator).collect(Collectors.toList());
+        String sortedDataInJson=new Gson().toJson(sortedData);
+        return sortedDataInJson;
+    }
+
+
+    private String sortIplData(Comparator<IplRunSheetDAO>... iplRunSheetComparator) throws CricketLeagueAnalyserException {
+        if(iplRunSheetDAOMap ==null || iplRunSheetDAOMap.size()==0){
+            throw new CricketLeagueAnalyserException(CricketLeagueAnalyserException.TypeOfException.NO_DATA_FOUND, "No Data Found");
+        }
+        List sortedData= iplRunSheetDAOMap.values().stream().
+                sorted(iplRunSheetComparator[0]).sorted(iplRunSheetComparator[1]).collect(Collectors.toList());
+        String sortedDataInJson=new Gson().toJson(sortedData);
+        return sortedDataInJson;
     }
 }
