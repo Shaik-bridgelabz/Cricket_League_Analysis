@@ -353,4 +353,28 @@ public class TestCricketLeagueAnalyser {
         }catch (CricketLeagueAnalyserException e) {
         }
     }
+
+    @Test
+    public void givenIPLMostWktsCSVFile_WhenSortedOnEconomy_ShouldReturn_BestEconomyPlayer() {
+        try {
+            CricketLeagueAnalyser cricketLeagueAnalyser=new CricketLeagueAnalyser();
+            cricketLeagueAnalyser.loadIplWktsSheetData(IPL_MOST_WKTS_CSV_FILE_PATH);
+            String sortedData=cricketLeagueAnalyser.getBowlingEconomyWiseSortedData();
+            IplRunSheetDAO[] sortedAverageData=new Gson().fromJson(sortedData,IplRunSheetDAO[].class);
+            Assert.assertEquals("Ben Cutting",sortedAverageData[sortedAverageData.length-1].player);
+        }catch (CricketLeagueAnalyserException e) {
+        }
+    }
+
+    @Test
+    public void givenIPLMostWktsCSVFile_WhenSortedOnEconomy_ShouldReturn_LeastEconomyPlayer() {
+        try {
+            CricketLeagueAnalyser cricketLeagueAnalyser=new CricketLeagueAnalyser();
+            cricketLeagueAnalyser.loadIplWktsSheetData(IPL_MOST_WKTS_CSV_FILE_PATH);
+            String sortedData=cricketLeagueAnalyser.getBowlingEconomyWiseSortedData();
+            IplRunSheetDAO[] sortedAverageData=new Gson().fromJson(sortedData,IplRunSheetDAO[].class);
+            Assert.assertEquals("Shivam Dube",sortedAverageData[0].player);
+        }catch (CricketLeagueAnalyserException e) {
+        }
+    }
 }
