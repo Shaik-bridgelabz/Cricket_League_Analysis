@@ -165,6 +165,12 @@ public class CricketLeagueAnalyser {
         return this.sortIplData(iplWktsSheetComparatorWickets,iplWktsSheetComparatorAverage);
     }
 
+    public String getBowlingandBattingAverageWiseSortedData() throws CricketLeagueAnalyserException {
+        Comparator<Ipl2019DAO> iplWktsSheetComparatorBowlingAverage =Comparator.comparing(ipl->ipl.bowlingAverage);
+        Comparator<Ipl2019DAO> iplWktsSheetComparatorBattingAverage=iplWktsSheetComparatorBowlingAverage.thenComparing(ipl->ipl.battingAverage);
+        return this.sortIplData(iplWktsSheetComparatorBowlingAverage,iplWktsSheetComparatorBattingAverage);
+    }
+
     private String sortIplData(Comparator<Ipl2019DAO> iplRunSheetComparator) throws CricketLeagueAnalyserException {
         if(ipl2019DAOMap ==null || ipl2019DAOMap.size()==0){
             throw new CricketLeagueAnalyserException(CricketLeagueAnalyserException.TypeOfException.NO_DATA_FOUND, "No Data Found");

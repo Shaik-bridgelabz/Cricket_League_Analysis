@@ -15,9 +15,4 @@ public class CricketLeagueAnalyserException extends Exception {
         super(message);
         this.type=type;
     }
-
-    public CricketLeagueAnalyserException(String message,String name) {
-        super(message);
-        this.type=TypeOfException.valueOf(name);
-    }
 }

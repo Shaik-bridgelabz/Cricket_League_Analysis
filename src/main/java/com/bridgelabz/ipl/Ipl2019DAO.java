@@ -3,13 +3,12 @@ package com.bridgelabz.ipl;
 public class Ipl2019DAO {
 
     public double battingAverage;
-    public String battingPlayer;
+    public String player;
     public double battingStrikeRate;
     public int sixes;
     public int fours;
     public int runs;
     public double bowlingAverage;
-    public String bowlingPlayer;
     public double bowlingStrikeRate;
     public double economy;
     public int fiveWickets;
@@ -17,7 +16,7 @@ public class Ipl2019DAO {
     public int wickets;
 
     public Ipl2019DAO(Ipl2019RunsSheetCSV ipl2019RunsSheetCSV) {
-        this.battingPlayer =ipl2019RunsSheetCSV.player;
+        this.player =ipl2019RunsSheetCSV.player;
         this.battingAverage =ipl2019RunsSheetCSV.average;
         this.battingStrikeRate=ipl2019RunsSheetCSV.strikeRate;
         this.sixes=ipl2019RunsSheetCSV.sixes;
@@ -26,7 +25,7 @@ public class Ipl2019DAO {
     }
 
     public Ipl2019DAO(Ipl2019WktsSheetCSV ipl2019WktsSheetCSV) {
-        this.bowlingPlayer =ipl2019WktsSheetCSV.player;
+        this.player =ipl2019WktsSheetCSV.player;
         this.bowlingAverage =ipl2019WktsSheetCSV.average;
         this.bowlingStrikeRate =ipl2019WktsSheetCSV.strikeRate;
         this.economy=ipl2019WktsSheetCSV.economy;
