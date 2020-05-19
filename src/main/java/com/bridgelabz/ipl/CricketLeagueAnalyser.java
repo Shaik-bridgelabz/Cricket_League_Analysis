@@ -159,6 +159,22 @@ public class CricketLeagueAnalyser {
         return this.sortIplWktsData(iplWktsSheetComparator);
     }
 
+    public String getStrikeRateWith5wand4wWiseSortedData() throws CricketLeagueAnalyserException {
+        if(iplWktsSheetDAOMap ==null || iplWktsSheetDAOMap.size()==0){
+            throw new CricketLeagueAnalyserException(CricketLeagueAnalyserException.TypeOfException.NO_DATA_FOUND, "No Data Found");
+        }
+        Comparator<IplWktsSheetDAO> iplRunSheetComparatorStrikeRate =Comparator.comparing(ipl->ipl.strikeRate);
+        Comparator<IplWktsSheetDAO> iplRunSheetComparator5Wickets=iplRunSheetComparatorStrikeRate.thenComparing(ipl->ipl.fiveWickets);
+        Comparator<IplWktsSheetDAO> iplRunSheetComparator4Wickets=iplRunSheetComparator5Wickets.thenComparing(ipl->ipl.fourWickets);
+        List sortedData= iplWktsSheetDAOMap.values().stream().
+                sorted(iplRunSheetComparatorStrikeRate).
+                sorted(iplRunSheetComparator5Wickets).
+                sorted(iplRunSheetComparator4Wickets).
+                collect(Collectors.toList());
+        String sortedDataInJson=new Gson().toJson(sortedData);
+        return sortedDataInJson;
+    }
+
     private String sortIplWktsData(Comparator<IplWktsSheetDAO> iplWktsSheetComparator) throws CricketLeagueAnalyserException {
         if(iplWktsSheetDAOMap ==null || iplWktsSheetDAOMap.size()==0){
             throw new CricketLeagueAnalyserException(CricketLeagueAnalyserException.TypeOfException.NO_DATA_FOUND, "No Data Found");
