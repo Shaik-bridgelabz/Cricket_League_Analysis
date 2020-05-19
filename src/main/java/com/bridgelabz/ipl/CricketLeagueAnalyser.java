@@ -108,4 +108,10 @@ public class CricketLeagueAnalyser {
         Comparator<IplRunSheetDAO> iplRunSheetComparatorStrikeRate=iplRunSheetComparatorAverage.thenComparing(ipl->ipl.strikeRate);
         return this.sortIplData(iplRunSheetComparatorAverage,iplRunSheetComparatorStrikeRate);
     }
+
+    public String getMaximumRunsWithBestAverageWiseSortedData() throws CricketLeagueAnalyserException {
+        Comparator<IplRunSheetDAO> iplRunSheetComparatorRuns =Comparator.comparing(ipl->ipl.runs);
+        Comparator<IplRunSheetDAO> iplRunSheetComparatorAverage=iplRunSheetComparatorRuns.thenComparing(ipl->ipl.average);
+        return this.sortIplData(iplRunSheetComparatorRuns,iplRunSheetComparatorAverage);
+    }
 }
