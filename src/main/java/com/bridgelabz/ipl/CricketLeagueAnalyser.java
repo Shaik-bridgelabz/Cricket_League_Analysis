@@ -163,16 +163,22 @@ public class CricketLeagueAnalyser {
         if(iplWktsSheetDAOMap ==null || iplWktsSheetDAOMap.size()==0){
             throw new CricketLeagueAnalyserException(CricketLeagueAnalyserException.TypeOfException.NO_DATA_FOUND, "No Data Found");
         }
-        Comparator<IplWktsSheetDAO> iplRunSheetComparatorStrikeRate =Comparator.comparing(ipl->ipl.strikeRate);
-        Comparator<IplWktsSheetDAO> iplRunSheetComparator5Wickets=iplRunSheetComparatorStrikeRate.thenComparing(ipl->ipl.fiveWickets);
-        Comparator<IplWktsSheetDAO> iplRunSheetComparator4Wickets=iplRunSheetComparator5Wickets.thenComparing(ipl->ipl.fourWickets);
+        Comparator<IplWktsSheetDAO> iplWktsSheetComparatorStrikeRate =Comparator.comparing(ipl->ipl.strikeRate);
+        Comparator<IplWktsSheetDAO> iplWktsSheetComparator5Wickets=iplWktsSheetComparatorStrikeRate.thenComparing(ipl->ipl.fiveWickets);
+        Comparator<IplWktsSheetDAO> iplWktsSheetComparator4Wickets=iplWktsSheetComparator5Wickets.thenComparing(ipl->ipl.fourWickets);
         List sortedData= iplWktsSheetDAOMap.values().stream().
-                sorted(iplRunSheetComparatorStrikeRate).
-                sorted(iplRunSheetComparator5Wickets).
-                sorted(iplRunSheetComparator4Wickets).
+                sorted(iplWktsSheetComparatorStrikeRate).
+                sorted(iplWktsSheetComparator5Wickets).
+                sorted(iplWktsSheetComparator4Wickets).
                 collect(Collectors.toList());
         String sortedDataInJson=new Gson().toJson(sortedData);
         return sortedDataInJson;
+    }
+
+    public String getBowlingAveragewithStrikeRateWiseSortedData() throws CricketLeagueAnalyserException {
+        Comparator<IplWktsSheetDAO> iplWktsSheetComparatorAverage =Comparator.comparing(ipl->ipl.average);
+        Comparator<IplWktsSheetDAO> iplWktsSheetComparatorStrikeRate=iplWktsSheetComparatorAverage.thenComparing(ipl->ipl.strikeRate);
+        return this.sortIplWktsData(iplWktsSheetComparatorAverage,iplWktsSheetComparatorStrikeRate);
     }
 
     private String sortIplWktsData(Comparator<IplWktsSheetDAO> iplWktsSheetComparator) throws CricketLeagueAnalyserException {
@@ -181,6 +187,18 @@ public class CricketLeagueAnalyser {
         }
         List sortedData= iplWktsSheetDAOMap.values().stream().
                 sorted(iplWktsSheetComparator).collect(Collectors.toList());
+        String sortedDataInJson=new Gson().toJson(sortedData);
+        return sortedDataInJson;
+    }
+
+    private String sortIplWktsData(Comparator<IplWktsSheetDAO>... iplWktsSheetComparator) throws CricketLeagueAnalyserException {
+        if(iplWktsSheetDAOMap ==null || iplWktsSheetDAOMap.size()==0){
+            throw new CricketLeagueAnalyserException(CricketLeagueAnalyserException.TypeOfException.NO_DATA_FOUND, "No Data Found");
+        }
+        List sortedData= iplWktsSheetDAOMap.values().stream().
+                sorted(iplWktsSheetComparator[0]).
+                sorted(iplWktsSheetComparator[1]).
+                collect(Collectors.toList());
         String sortedDataInJson=new Gson().toJson(sortedData);
         return sortedDataInJson;
     }
