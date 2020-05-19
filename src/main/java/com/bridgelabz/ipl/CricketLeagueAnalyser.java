@@ -163,22 +163,29 @@ public class CricketLeagueAnalyser {
         if(iplWktsSheetDAOMap ==null || iplWktsSheetDAOMap.size()==0){
             throw new CricketLeagueAnalyserException(CricketLeagueAnalyserException.TypeOfException.NO_DATA_FOUND, "No Data Found");
         }
-        Comparator<IplWktsSheetDAO> iplWktsSheetComparatorStrikeRate =Comparator.comparing(ipl->ipl.strikeRate);
-        Comparator<IplWktsSheetDAO> iplWktsSheetComparator5Wickets=iplWktsSheetComparatorStrikeRate.thenComparing(ipl->ipl.fiveWickets);
+        Comparator<IplWktsSheetDAO> iplWktsSheetComparator5Wickets =Comparator.comparing(ipl->ipl.fiveWickets);
         Comparator<IplWktsSheetDAO> iplWktsSheetComparator4Wickets=iplWktsSheetComparator5Wickets.thenComparing(ipl->ipl.fourWickets);
+        Comparator<IplWktsSheetDAO> iplWktsSheetComparatorStrikeRate=iplWktsSheetComparator4Wickets.thenComparing(ipl->ipl.strikeRate);
         List sortedData= iplWktsSheetDAOMap.values().stream().
-                sorted(iplWktsSheetComparatorStrikeRate).
                 sorted(iplWktsSheetComparator5Wickets).
                 sorted(iplWktsSheetComparator4Wickets).
+                sorted(iplWktsSheetComparatorStrikeRate).
                 collect(Collectors.toList());
         String sortedDataInJson=new Gson().toJson(sortedData);
         return sortedDataInJson;
     }
 
     public String getBowlingAveragewithStrikeRateWiseSortedData() throws CricketLeagueAnalyserException {
-        Comparator<IplWktsSheetDAO> iplWktsSheetComparatorAverage =Comparator.comparing(ipl->ipl.average);
-        Comparator<IplWktsSheetDAO> iplWktsSheetComparatorStrikeRate=iplWktsSheetComparatorAverage.thenComparing(ipl->ipl.strikeRate);
-        return this.sortIplWktsData(iplWktsSheetComparatorAverage,iplWktsSheetComparatorStrikeRate);
+        Comparator<IplWktsSheetDAO> iplWktsSheetComparatorStrikeRate =Comparator.comparing(ipl->ipl.strikeRate);
+        Comparator<IplWktsSheetDAO> iplWktsSheetComparatorAverage=iplWktsSheetComparatorStrikeRate.thenComparing(ipl->ipl.average);
+        return this.sortIplWktsData(iplWktsSheetComparatorStrikeRate,iplWktsSheetComparatorAverage);
+    }
+
+
+    public String getBowlingAveragewithWicketsWiseSortedData() throws CricketLeagueAnalyserException {
+        Comparator<IplWktsSheetDAO> iplWktsSheetComparatorWickets =Comparator.comparing(ipl->ipl.wickets);
+        Comparator<IplWktsSheetDAO> iplWktsSheetComparatorAverage=iplWktsSheetComparatorWickets.thenComparing(ipl->ipl.average);
+        return this.sortIplWktsData(iplWktsSheetComparatorWickets,iplWktsSheetComparatorAverage);
     }
 
     private String sortIplWktsData(Comparator<IplWktsSheetDAO> iplWktsSheetComparator) throws CricketLeagueAnalyserException {

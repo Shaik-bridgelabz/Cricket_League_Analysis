@@ -433,7 +433,7 @@ public class TestCricketLeagueAnalyser {
             cricketLeagueAnalyser.loadIplWktsSheetData(IPL_MOST_WKTS_CSV_FILE_PATH);
             String sortedData=cricketLeagueAnalyser.getStrikeRateWith5wand4wWiseSortedData();
             IplRunSheetDAO[] sortedAverageData=new Gson().fromJson(sortedData,IplRunSheetDAO[].class);
-            Assert.assertEquals("Krishnappa Gowtham",sortedAverageData[sortedAverageData.length-1].player);
+            Assert.assertEquals("Alzarri Joseph",sortedAverageData[sortedAverageData.length-1].player);
         }catch (CricketLeagueAnalyserException e) {
         }
     }
@@ -468,6 +468,30 @@ public class TestCricketLeagueAnalyser {
             CricketLeagueAnalyser cricketLeagueAnalyser=new CricketLeagueAnalyser();
             cricketLeagueAnalyser.loadIplWktsSheetData(IPL_MOST_WKTS_CSV_FILE_PATH);
             String sortedData=cricketLeagueAnalyser.getBowlingAveragewithStrikeRateWiseSortedData();
+            IplRunSheetDAO[] sortedAverageData=new Gson().fromJson(sortedData,IplRunSheetDAO[].class);
+            Assert.assertEquals("Suresh Raina",sortedAverageData[0].player);
+        }catch (CricketLeagueAnalyserException e) {
+        }
+    }
+
+    @Test
+    public void givenIPLMostWktsCSVFile_WhenSortedOn_WicketswithAverage_ShouldReturn_MaximumWicketswithBestAveragePlayer() {
+        try {
+            CricketLeagueAnalyser cricketLeagueAnalyser=new CricketLeagueAnalyser();
+            cricketLeagueAnalyser.loadIplWktsSheetData(IPL_MOST_WKTS_CSV_FILE_PATH);
+            String sortedData=cricketLeagueAnalyser.getBowlingAveragewithWicketsWiseSortedData();
+            IplRunSheetDAO[] sortedAverageData=new Gson().fromJson(sortedData,IplRunSheetDAO[].class);
+            Assert.assertEquals("Imran Tahir",sortedAverageData[sortedAverageData.length-1].player);
+        }catch (CricketLeagueAnalyserException e) {
+        }
+    }
+
+    @Test
+    public void givenIPLMostWktsCSVFile_WhenSortedOn_WicketswithAverage_ShouldReturn_LeastWicketsWithLeastAveragePlayer() {
+        try {
+            CricketLeagueAnalyser cricketLeagueAnalyser=new CricketLeagueAnalyser();
+            cricketLeagueAnalyser.loadIplWktsSheetData(IPL_MOST_WKTS_CSV_FILE_PATH);
+            String sortedData=cricketLeagueAnalyser.getBowlingAveragewithWicketsWiseSortedData();
             IplRunSheetDAO[] sortedAverageData=new Gson().fromJson(sortedData,IplRunSheetDAO[].class);
             Assert.assertEquals("Suresh Raina",sortedAverageData[0].player);
         }catch (CricketLeagueAnalyserException e) {
