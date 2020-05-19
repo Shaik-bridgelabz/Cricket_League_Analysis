@@ -133,4 +133,19 @@ public class CricketLeagueAnalyser {
         Comparator<IplRunSheetDAO> iplRunSheetComparatorAverage=iplRunSheetComparatorRuns.thenComparing(ipl->ipl.average);
         return this.sortIplData(iplRunSheetComparatorRuns,iplRunSheetComparatorAverage);
     }
+
+    public String getBowlingAverageWiseSortedData() throws CricketLeagueAnalyserException {
+        Comparator<IplWktsSheetDAO> iplWktsSheetComparator = Comparator.comparing(ipl->ipl.average);
+        return this.sortIplWktsData(iplWktsSheetComparator);
+    }
+
+    private String sortIplWktsData(Comparator<IplWktsSheetDAO> iplWktsSheetComparator) throws CricketLeagueAnalyserException {
+        if(iplWktsSheetDAOMap ==null || iplWktsSheetDAOMap.size()==0){
+            throw new CricketLeagueAnalyserException(CricketLeagueAnalyserException.TypeOfException.NO_DATA_FOUND, "No Data Found");
+        }
+        List sortedData= iplWktsSheetDAOMap.values().stream().
+                sorted(iplWktsSheetComparator).collect(Collectors.toList());
+        String sortedDataInJson=new Gson().toJson(sortedData);
+        return sortedDataInJson;
+    }
 }
