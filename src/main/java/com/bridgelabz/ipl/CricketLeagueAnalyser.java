@@ -17,9 +17,11 @@ import java.util.stream.StreamSupport;
 public class CricketLeagueAnalyser {
 
     Map<String, IplRunSheetDAO> iplRunSheetDAOMap=null;
+    Map<String, IplWktsSheetDAO> iplWktsSheetDAOMap=null;
 
     public CricketLeagueAnalyser(){
         iplRunSheetDAOMap=new HashMap<String, IplRunSheetDAO>();
+        iplWktsSheetDAOMap=new HashMap<String, IplWktsSheetDAO>();
     }
 
     public  int loadIplRunsSheetData(String csvFilePath) throws CricketLeagueAnalyserException {
@@ -30,6 +32,23 @@ public class CricketLeagueAnalyser {
             StreamSupport.stream(csvIterable.spliterator(),false)
                     .forEach(iplRunsCSV -> iplRunSheetDAOMap.put(iplRunsCSV.player,new IplRunSheetDAO(iplRunsCSV)));
             return iplRunSheetDAOMap.size();
+        } catch (NoSuchFileException e) {
+            throw new CricketLeagueAnalyserException(CricketLeagueAnalyserException.TypeOfException.NO_FILE_FOUND, "File Not Found");
+        } catch(IOException e){
+            throw new CricketLeagueAnalyserException(CricketLeagueAnalyserException.TypeOfException.NO_DATA_FOUND, "CSV file Not Proper");
+        } catch(CSVBuilderException e){
+            throw new CricketLeagueAnalyserException(CricketLeagueAnalyserException.TypeOfException.UNABLE_TO_PARSE, e.getMessage());
+        }
+    }
+
+    public int loadIplWktsSheetData(String csvFilePath) throws CricketLeagueAnalyserException {
+        try(Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
+            ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
+            Iterator<Ipl2019WktsSheetCSV> csvIterator=csvBuilder.getCSVfileIterator(reader, Ipl2019WktsSheetCSV.class);
+            Iterable<Ipl2019WktsSheetCSV> csvIterable=()->csvIterator;
+            StreamSupport.stream(csvIterable.spliterator(),false)
+                    .forEach(iplWktsCSV -> iplWktsSheetDAOMap.put(iplWktsCSV.player,new IplWktsSheetDAO(iplWktsCSV)));
+            return iplWktsSheetDAOMap.size();
         } catch (NoSuchFileException e) {
             throw new CricketLeagueAnalyserException(CricketLeagueAnalyserException.TypeOfException.NO_FILE_FOUND, "File Not Found");
         } catch(IOException e){
