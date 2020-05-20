@@ -106,9 +106,9 @@ public class CricketLeagueAnalyser {
     }
 
     public String getStrikeRateWith5wand4wWiseSortedData() throws CricketLeagueAnalyserException {
-        Comparator<Ipl2019DAO> iplWktsSheetComparator5Wickets =Comparator.comparing(ipl->ipl.fiveWickets);
-        Comparator<Ipl2019DAO> iplWktsSheetComparator5_4Wickets=iplWktsSheetComparator5Wickets.thenComparing(ipl->ipl.fourWickets);
-        Comparator<Ipl2019DAO> iplWktsSheetComparatorStrikeRate_5_4Wickets=iplWktsSheetComparator5_4Wickets.thenComparing(ipl->ipl.bowlingStrikeRate);
+        Comparator<Ipl2019DAO> iplWktsSheetComparatorStrikeRate =Comparator.comparing(ipl->ipl.bowlingStrikeRate);
+        Comparator<Ipl2019DAO> iplWktsSheetComparatorStrikeRate5Wickets=iplWktsSheetComparatorStrikeRate.thenComparing(ipl->ipl.fiveWickets);
+        Comparator<Ipl2019DAO> iplWktsSheetComparatorStrikeRate_5_4Wickets=iplWktsSheetComparatorStrikeRate5Wickets.thenComparing(ipl->ipl.fourWickets);
         return this.sortIplData(iplWktsSheetComparatorStrikeRate_5_4Wickets);
     }
 
@@ -129,6 +129,13 @@ public class CricketLeagueAnalyser {
         Comparator<Ipl2019DAO> iplWktsSheetComparatorBowlingAverage =Comparator.comparing(ipl->ipl.bowlingAverage);
         Comparator<Ipl2019DAO> iplWktsSheetComparatorBowlingBattingAverage=iplWktsSheetComparatorBowlingAverage.thenComparing(ipl->ipl.battingAverage);
         return this.sortIplData(iplWktsSheetComparatorBowlingBattingAverage);
+    }
+
+    public String getRunsandWicketsWiseSortedData() throws CricketLeagueAnalyserException {
+        loadBothRunsandWktsSheet(iplRunsSheetMap,iplWktsSheetMap);
+        Comparator<Ipl2019DAO> iplComparatorRuns =Comparator.comparing(ipl->ipl.battingRuns);
+        Comparator<Ipl2019DAO> iplComparatorRunsWickets=iplComparatorRuns.thenComparing(ipl->ipl.wickets);
+        return this.sortIplData(iplComparatorRunsWickets);
     }
 
     private String sortIplData(Comparator<Ipl2019DAO> iplRunSheetComparator) throws CricketLeagueAnalyserException {
