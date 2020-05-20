@@ -503,9 +503,10 @@ public class TestCricketLeagueAnalyser {
         try {
             CricketLeagueAnalyser cricketLeagueAnalyser=new CricketLeagueAnalyser();
             cricketLeagueAnalyser.loadIplWktsSheetData(IPL_MOST_WKTS_CSV_FILE_PATH);
+            cricketLeagueAnalyser.loadIplRunsSheetData(IPL_MOST_RUNS_CSV_FILE_PATH);
             String sortedData=cricketLeagueAnalyser.getBowlingandBattingAverageWiseSortedData();
             Ipl2019DAO[] sortedAverageData=new Gson().fromJson(sortedData, Ipl2019DAO[].class);
-            Assert.assertEquals("Krishnappa Gowtham",sortedAverageData[sortedAverageData.length-1].player);
+            Assert.assertEquals("MS Dhoni",sortedAverageData[sortedAverageData.length-1].player);
         }catch (CricketLeagueAnalyserException e) {
         }
     }
@@ -515,9 +516,10 @@ public class TestCricketLeagueAnalyser {
         try {
             CricketLeagueAnalyser cricketLeagueAnalyser=new CricketLeagueAnalyser();
             cricketLeagueAnalyser.loadIplWktsSheetData(IPL_MOST_WKTS_CSV_FILE_PATH);
+            cricketLeagueAnalyser.loadIplRunsSheetData(IPL_MOST_RUNS_CSV_FILE_PATH);
             String sortedData=cricketLeagueAnalyser.getBowlingandBattingAverageWiseSortedData();
             Ipl2019DAO[] sortedAverageData=new Gson().fromJson(sortedData, Ipl2019DAO[].class);
-            Assert.assertEquals("Suresh Raina",sortedAverageData[0].player);
+            Assert.assertEquals("Ishant Sharma",sortedAverageData[0].player);
         }catch (CricketLeagueAnalyserException e) {
         }
     }

@@ -7,7 +7,8 @@ public class Ipl2019DAO {
     public double battingStrikeRate;
     public int sixes;
     public int fours;
-    public int runs;
+    public int bowlingRuns;
+    public int battingRuns;
     public double bowlingAverage;
     public double bowlingStrikeRate;
     public double economy;
@@ -21,7 +22,7 @@ public class Ipl2019DAO {
         this.battingStrikeRate=ipl2019RunsSheetCSV.strikeRate;
         this.sixes=ipl2019RunsSheetCSV.sixes;
         this.fours=ipl2019RunsSheetCSV.fours;
-        this.runs=ipl2019RunsSheetCSV.runs;
+        this.battingRuns=ipl2019RunsSheetCSV.runs;
     }
 
     public Ipl2019DAO(Ipl2019WktsSheetCSV ipl2019WktsSheetCSV) {
@@ -32,5 +33,6 @@ public class Ipl2019DAO {
         this.fiveWickets=ipl2019WktsSheetCSV.fiveWkts;
         this.fourWickets=ipl2019WktsSheetCSV.fourWkts;
         this.wickets=ipl2019WktsSheetCSV.wickets;
+        this.bowlingRuns=ipl2019WktsSheetCSV.runs;
     }
 }
