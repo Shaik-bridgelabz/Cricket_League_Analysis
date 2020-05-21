@@ -2,7 +2,7 @@ package com.bridgelabz.ipl;
 
 import com.opencsv.bean.CsvBindByName;
 
-public class Ipl2019RunsSheetCSV {
+public class IplRunsSheetCSV {
 
         @CsvBindByName(column ="POS" , required=true)
         public String position;
@@ -40,23 +40,16 @@ public class Ipl2019RunsSheetCSV {
         @CsvBindByName(column ="4s" , required=true)
         public int fours;
 
+        public IplRunsSheetCSV(String player, double battingAverage, double battingStrikeRate, int sixes,
+                               int fours, int battingRuns) {
+                this.player=player;
+                this.average=battingAverage;
+                this.strikeRate=battingStrikeRate;
+                this.sixes=sixes;
+                this.fours=fours;
+                this.runs=battingRuns;
+        }
 
-        @Override
-        public String toString() {
-            return "Ipl2019RunsSheet{" +
-                    "position=" + position + '\'' +
-                    "player=" + player + '\'' +
-                    ", match=" + match +
-                    ", innings=" + innings +
-                    ", notOut=" + notOut +
-                    ", runs=" + runs +
-                    ", strikeRate=" + strikeRate +
-                    ", average=" + average +
-                    ", hundreds=" + hundreds +
-                    ", fiftys=" + fiftys +
-                    ", sixes=" + sixes +
-                    ", fours=" + fours +
-                    '}';
+        public IplRunsSheetCSV() {
         }
 }
-
