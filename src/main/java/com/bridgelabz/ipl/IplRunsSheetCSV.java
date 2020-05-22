@@ -39,17 +39,10 @@ public class IplRunsSheetCSV {
 
         @CsvBindByName(column ="4s" , required=true)
         public int fours;
-
-        public IplRunsSheetCSV(String player, double battingAverage, double battingStrikeRate, int sixes,
-                               int fours, int battingRuns) {
-                this.player=player;
-                this.average=battingAverage;
-                this.strikeRate=battingStrikeRate;
-                this.sixes=sixes;
-                this.fours=fours;
-                this.runs=battingRuns;
-        }
-
+        
         public IplRunsSheetCSV() {
         }
+
+    public IplRunsSheetCSV(String player, double battingAverage, double battingStrikeRate, int sixes, int fours, int battingRuns) {
+    }
 }

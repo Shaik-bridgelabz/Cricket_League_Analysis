@@ -44,18 +44,9 @@ public class IplWktsSheetCSV {
     @CsvBindByName(column = "5w", required = true)
     public int fiveWkts;
 
-    public IplWktsSheetCSV(String player, double bowlingAverage, double bowlingStrikeRate, double economy,
-                           int fiveWickets, int fourWickets, int wickets, int bowlingRuns) {
-        this.player=player;
-        this.average=bowlingAverage;
-        this.strikeRate=bowlingStrikeRate;
-        this.economy=economy;
-        this.fiveWkts=fiveWickets;
-        this.fourWkts=fourWickets;
-        this.wickets=wickets;
-        this.runs=bowlingRuns;
+    public IplWktsSheetCSV() {
     }
 
-    public IplWktsSheetCSV() {
+    public IplWktsSheetCSV(String player, double bowlingAverage, double bowlingStrikeRate, double economy, int fiveWickets, int fourWickets, int wickets, int bowlingRuns) {
     }
 }
